@@ -1,26 +1,31 @@
 import connectToDatabase from "@/utils/connectToMongoDB";
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
+import { userType } from "@/utils/types";
 
 export const POST = async (req: NextRequest) => {
   try {
-    const { uname, pwd, confirmPwd } = await req.json();
-    if (!uname || !pwd || !confirmPwd) {
+    const { username, password, confirmPassword } = await req.json();
+
+    if (!username || !password || !confirmPassword) {
       return NextResponse.json(
         { message: "All fields are mandatory" },
         { status: 400 },
       );
     }
-    if (pwd !== confirmPwd) {
+
+    if (password !== confirmPassword) {
       return NextResponse.json(
-        { message: "Confirm password and password must be same" },
+        { message: "Password and confirm password must be same" },
         { status: 400 },
       );
     }
+
     const client = await connectToDatabase();
     const db = client.db("auth");
-    const user = db.collection("user");
-    const existingUser = await user.findOne({ uname });
+    const users = db.collection("user");
+    const existingUser = await users.findOne<userType>({ username });
+
     if (existingUser) {
       return NextResponse.json(
         { message: "Sorry, username already taken. Try a different one" },
@@ -28,10 +33,12 @@ export const POST = async (req: NextRequest) => {
       );
     } else {
       const salt = crypto.randomBytes(16).toString("hex");
-      const pwdHash = await crypto
-        .pbkdf2Sync(pwd, salt, 1024, 64, "sha256")
+      const hash = crypto
+        .pbkdf2Sync(password, salt, 1024, 64, "sha256")
         .toString("hex");
-      await user.insertOne({ uname, pwdHash, salt });
+
+      await users.insertOne({ username, password: { hash, salt } });
+
       return NextResponse.json(
         { message: "User created successfully" },
         { status: 201 },

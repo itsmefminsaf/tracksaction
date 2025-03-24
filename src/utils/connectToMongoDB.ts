@@ -14,8 +14,6 @@ const connectToDatabase = async () => {
   const client = new MongoClient(MONGODB_URI);
   await client.connect();
   cachedClient = client;
-  console.log(cachedClient);
-
   return client;
 };
 
