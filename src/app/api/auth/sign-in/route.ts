@@ -2,12 +2,13 @@ import connectToDatabase from "@/utils/connectToMongoDB";
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
+import { userType } from "@/utils/types";
 
 export const POST = async (req: NextRequest) => {
   try {
-    const { uname, pwd } = await req.json();
+    const { username, password } = await req.json();
 
-    if (!uname || !pwd) {
+    if (!username || !password) {
       return NextResponse.json(
         { message: "Username and password are mandatory" },
         { status: 400 },
@@ -17,17 +18,16 @@ export const POST = async (req: NextRequest) => {
     const client = await connectToDatabase();
     const db = client.db("auth");
     const user = db.collection("user");
-    const existingUser = await user.findOne({ uname });
+    const existingUser = await user.findOne<userType>({ username });
 
     if (!existingUser) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
-    const { salt, _id, pwdHash } = existingUser;
-
     const isPasswordCorrect =
-      crypto.pbkdf2Sync(pwd, salt, 1024, 64, "sha256").toString("hex") ===
-      pwdHash;
+      crypto
+        .pbkdf2Sync(password, existingUser.password.salt, 1024, 64, "sha256")
+        .toString("hex") === existingUser.password.hash;
 
     if (!isPasswordCorrect) {
       return NextResponse.json(
@@ -35,14 +35,18 @@ export const POST = async (req: NextRequest) => {
         { status: 401 },
       );
     }
-    const token = jwt.sign(
-      { _id },
-      process.env.JWT_PRIVATE_KEY as jwt.PrivateKey,
-      {
-        algorithm: "HS256",
-        expiresIn: "7d",
-      },
-    );
+
+    const JWT_SECRET_KEY = process.env.JWT_PRIVATE_KEY as jwt.Secret;
+
+    if (!JWT_SECRET_KEY) {
+      throw new Error("JWT_SECRET_KEY is not defined in .env file");
+    }
+
+    const token = jwt.sign({ id: existingUser._id }, JWT_SECRET_KEY, {
+      expiresIn: "7d",
+      algorithm: "HS512",
+    });
+
     return NextResponse.json({ token }, { status: 200 });
   } catch (err) {
     console.log(err);
