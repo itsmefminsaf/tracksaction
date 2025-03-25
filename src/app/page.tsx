@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const Root = () => {
+const RootPage = () => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(false);
 
@@ -12,18 +12,16 @@ const Root = () => {
       setLoading(false);
     } else {
       fetch("/api/auth/verify-token", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (!data.uid) {
-            setLoading(false);
-          }
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      }).then((res) => {
+        if (res.status === 200) {
           setUser(true);
-          setLoading(false);
-        });
+        }
+        setLoading(false);
+      });
     }
   }, []);
 
@@ -40,4 +38,4 @@ const Root = () => {
   );
 };
 
-export default Root;
+export default RootPage;
