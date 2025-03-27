@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --foreground: hsla(112, 61%, 40%, 1);
+  --foreground: hsla(112, 61%, 50%, 1);
   --secondary: hsla(124, 64%, 9%, 1);
   --background: hsla(165, 20%, 96%, 1);
 }
@@ -13,7 +13,6 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground: hsla(112, 61%, 60%, 1);
     --secondary: hsla(124, 64%, 91%, 1);
     --background: hsla(165, 20%, 4%, 1);
   }
