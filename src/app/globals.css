@@ -22,3 +22,12 @@ body {
   background: var(--background);
   color: var(--secondary);
 }
+
+@layer components {
+  .form-input {
+    @apply flex items-center gap-3 rounded-2xl bg-green-50 px-3 py-2 text-black placeholder:text-black/50;
+  }
+  .form-input-label {
+    @apply ml-3 text-xl font-bold;
+  }
+}
