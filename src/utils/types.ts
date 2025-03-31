@@ -1,5 +1,19 @@
 import { ObjectId } from "mongodb";
 
+export type transactionType = {
+  date: string;
+  time: string;
+  description: string;
+  amount: number;
+};
+
+export type modelType = {
+  name: string;
+  image?: string;
+  important?: boolean;
+  transactions?: transactionType[];
+};
+
 export type userType = {
   _id?: ObjectId;
   name: string;
@@ -8,12 +22,7 @@ export type userType = {
     hash: string;
     salt: string;
   };
-  transactions?: {
-    date: string;
-    time: string;
-    description: string;
-    amount: number;
-  }[];
+  models?: modelType[];
 };
 
 export type formState = {
