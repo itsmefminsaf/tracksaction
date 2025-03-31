@@ -1,13 +1,10 @@
 import getSession from "@/actions/getSession";
+import Dashboard from "@/components/Dashboard";
+import LandingPage from "@/components/LandingPage";
 
 const Page = async () => {
   const uid = await getSession();
-
-  if (uid) {
-    return <h1>{uid}</h1>;
-  }
-
-  return <h1>Landing page</h1>;
+  return <>{uid ? <Dashboard uid={uid} /> : <LandingPage />}</>;
 };
 
 export default Page;

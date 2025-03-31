@@ -8,7 +8,9 @@ export const metadata: Metadata = {
     "Tracksaction is a web based finance management tool that allow you to keep track on your transaction with others.",
 };
 
-const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
+const RootLayout = async ({
+  children,
+}: Readonly<{ children: React.ReactNode }>) => {
   return (
     <html lang="en">
       <body>{children}</body>
