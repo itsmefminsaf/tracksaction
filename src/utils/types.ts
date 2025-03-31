@@ -14,3 +14,13 @@ export type userType = {
     amount: number;
   }[];
 };
+
+export type formState = {
+  values: {
+    name?: string;
+    email?: string;
+    password?: string;
+    confirmPassword?: string;
+  };
+  error?: string;
+};
