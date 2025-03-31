@@ -1,5 +1,17 @@
-const Dashboard = ({ uid }: { uid: string }) => {
-  return <div>{uid}</div>;
+import { userType } from "@/utils/types";
+
+const Dashboard = async ({ user }: { user: userType }) => {
+  return (
+    <div>
+      <h1>{user.name}</h1>
+      <h1>{user.email}</h1>
+      <h1>
+        {user.transactions?.map((tr, index) => {
+          return <li key={index}>{tr.description}</li>;
+        })}
+      </h1>
+    </div>
+  );
 };
 
 export default Dashboard;

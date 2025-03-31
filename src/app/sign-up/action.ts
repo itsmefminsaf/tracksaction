@@ -37,13 +37,13 @@ const signUpAction = async (prevState: formState, formDate: FormData) => {
 
     const { hash, salt } = await generatePasswordHash(password);
 
-    const { insertedId } = await users.insertOne({
+    await users.insertOne({
       name,
       email,
       password: { hash, salt },
     });
 
-    await createSession(insertedId.toString());
+    await createSession(email);
   } catch (error) {
     console.log(error);
     return { values, error: "Something went wrong" };

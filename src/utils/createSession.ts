@@ -2,7 +2,7 @@ import crypto from "crypto";
 import { Redis } from "@upstash/redis";
 import { cookies } from "next/headers";
 
-const createSession = async (id: string) => {
+const createSession = async (email: string) => {
   const session_id = crypto.randomBytes(512).toString("hex").normalize();
   (await cookies()).set("session_id", session_id, {
     secure: true,
@@ -13,7 +13,7 @@ const createSession = async (id: string) => {
 
   const redis = Redis.fromEnv();
 
-  await redis.set(`session_id:${session_id}`, id, { ex: 60 * 60 * 24 * 7 });
+  await redis.set(`session_id:${session_id}`, email, { ex: 60 * 60 * 24 * 7 });
   return;
 };
 
