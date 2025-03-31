@@ -47,9 +47,8 @@ const signUpAction = async (prevState: formState, formDate: FormData) => {
   } catch (error) {
     console.log(error);
     return { values, error: "Something went wrong" };
-  } finally {
-    redirect("/");
   }
+  redirect("/");
 };
 
 export default signUpAction;
