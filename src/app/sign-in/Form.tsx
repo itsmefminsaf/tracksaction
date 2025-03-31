@@ -1,24 +1,35 @@
 "use client";
 
+import { formState } from "@/utils/types";
 import Link from "next/link";
-import { FaUser } from "react-icons/fa";
+import { useActionState } from "react";
+import { MdEmail } from "react-icons/md";
 import { PiPasswordBold } from "react-icons/pi";
+import signInAction from "./action";
 
 const Form = () => {
+  const initialState: formState = {
+    values: {},
+  };
+  const [state, action, isPending] = useActionState(signInAction, initialState);
   return (
-    <form className="bg-foreground/40 flex max-w-96 flex-col gap-4 rounded-3xl p-8">
+    <form
+      action={action}
+      className="bg-foreground/40 flex max-w-96 flex-col gap-4 rounded-3xl p-8"
+    >
       <div className="flex flex-col gap-1">
-        <label htmlFor="username" className="form-input-label">
-          User name
+        <label htmlFor="email" className="form-input-label">
+          Email
         </label>
         <div className="form-input">
-          <FaUser />
+          <MdEmail />
           <input
-            type="text"
-            id="username"
-            name="username"
-            placeholder="Ex: john123"
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Ex: name@mail.com"
             className="outline-none"
+            defaultValue={state?.values.email}
           />
         </div>
       </div>
@@ -34,9 +45,15 @@ const Form = () => {
             name="password"
             placeholder="Ex: **********"
             className="outline-none"
+            defaultValue={state?.values.password}
           />
         </div>
       </div>
+      {state.error && (
+        <p className="w-fit place-self-center rounded-full bg-red-500 px-2 py-1 text-xs">
+          {state.error}
+        </p>
+      )}
       <Link href={"forgot-password"} className="text-center">
         forgot password
       </Link>
@@ -50,9 +67,10 @@ const Form = () => {
         <p className="font-extrabold">or</p>
         <button
           type="submit"
-          className="bg-foreground text-background w-fit rounded-2xl px-3 py-2 font-bold"
+          className="bg-foreground text-background disabled:bg-foreground/50 w-fit rounded-2xl px-3 py-2 font-bold"
+          disabled={isPending}
         >
-          Sign in
+          {isPending ? "Signing in" : "Sing in"}
         </button>
       </div>
     </form>
