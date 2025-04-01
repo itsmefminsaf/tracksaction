@@ -26,6 +26,13 @@ export type userType = {
   models?: modelType[];
 };
 
+export type userReqFieldsType = {
+  name?: boolean;
+  email?: boolean;
+  sessions?: boolean;
+  models?: boolean;
+};
+
 export type formState = {
   values: {
     name?: string;

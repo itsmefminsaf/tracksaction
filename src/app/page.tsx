@@ -3,8 +3,8 @@ import Dashboard from "@/components/Dashboard";
 import LandingPage from "@/components/LandingPage";
 
 const Page = async () => {
-  const user = await getSession();
-  return <>{user ? <Dashboard user={user} /> : <LandingPage />}</>;
+  const email = await getSession();
+  return <>{email ? <Dashboard email={email} /> : <LandingPage />}</>;
 };
 
 export default Page;

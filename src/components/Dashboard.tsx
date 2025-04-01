@@ -1,18 +1,11 @@
-import { userType } from "@/utils/types";
+import getUserInfo from "@/actions/getUserInfo";
 
-const Dashboard = async ({ user }: { user: userType }) => {
+const Dashboard = async ({ email }: { email: string }) => {
+  const user = await getUserInfo(email, { name: true });
   return (
     <div>
-      <h1>{user.name}</h1>
-      <h1>{user.email}</h1>
-      {user.sessions.map((session, index) => {
-        return (
-          <li key={index}>
-            <span>{index + 1}.</span>
-            {session}
-          </li>
-        );
-      })}
+      <h1>{user?.name}</h1>
+      <h1>{user?.email}</h1>
     </div>
   );
 };

@@ -1,5 +1,5 @@
-import connectToDatabase from "@/utils/connectToMongoDB";
-import { userType } from "@/utils/types";
+"use server";
+
 import { Redis } from "@upstash/redis";
 import { cookies } from "next/headers";
 
@@ -10,15 +10,7 @@ const getSession = async () => {
     return null;
   }
 
-  const email = (await Redis.fromEnv().get(`session_id:${session}`)) as string;
-
-  const client = await connectToDatabase();
-  const db = client.db("auth");
-  const users = db.collection("users");
-
-  const user = (await users.findOne({ email })) as userType;
-
-  return user;
+  return (await Redis.fromEnv().get(`session_id:${session}`)) as string;
 };
 
 export default getSession;
