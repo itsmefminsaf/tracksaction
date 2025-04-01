@@ -6,6 +6,7 @@ import { useActionState } from "react";
 import { MdEmail } from "react-icons/md";
 import { PiPasswordBold } from "react-icons/pi";
 import signInAction from "./action";
+import { BiLinkExternal } from "react-icons/bi";
 
 const Form = () => {
   const initialState: formState = {
@@ -60,9 +61,9 @@ const Form = () => {
       <div className="flex items-center justify-evenly">
         <Link
           href={"/sign-up"}
-          className="bg-background text-foreground w-fit rounded-2xl px-3 py-2 font-bold"
+          className="bg-background text-foreground flex w-fit items-center gap-2 rounded-2xl px-3 py-2 font-bold"
         >
-          Sign up
+          Sign up <BiLinkExternal />
         </Link>
         <p className="font-extrabold">or</p>
         <button
@@ -70,7 +71,7 @@ const Form = () => {
           className="bg-foreground text-background disabled:bg-foreground/50 w-fit rounded-2xl px-3 py-2 font-bold"
           disabled={isPending}
         >
-          {isPending ? "Signing in" : "Sing in"}
+          {isPending ? "Please wait..." : "Continue"}
         </button>
       </div>
     </form>

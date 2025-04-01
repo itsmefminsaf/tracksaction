@@ -7,6 +7,7 @@ import { PiPasswordBold } from "react-icons/pi";
 import signUpAction from "./action";
 import { formState } from "@/utils/types";
 import { MdEmail } from "react-icons/md";
+import { BiLinkExternal } from "react-icons/bi";
 
 const Form = () => {
   const initialState: formState = {
@@ -93,14 +94,14 @@ const Form = () => {
           className="bg-foreground text-background disabled:bg-background/50 w-fit rounded-2xl px-3 py-2 font-bold"
           disabled={isPending}
         >
-          {isPending ? "SIgning in" : "Sing in"}
+          {isPending ? "Please wait..." : "Continue"}
         </button>
         <p className="font-extrabold">or</p>
         <Link
           href={"/sign-in"}
-          className="bg-background text-foreground w-fit rounded-2xl px-3 py-2 font-bold"
+          className="bg-background text-foreground flex w-fit items-center gap-2 rounded-2xl px-3 py-2 font-bold"
         >
-          Sign in
+          Sign in <BiLinkExternal />
         </Link>
       </div>
     </form>
