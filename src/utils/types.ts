@@ -22,6 +22,7 @@ export type userType = {
     hash: string;
     salt: string;
   };
+  sessions: string[];
   models?: modelType[];
 };
 
