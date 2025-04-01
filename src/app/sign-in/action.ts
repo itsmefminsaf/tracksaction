@@ -37,7 +37,7 @@ const signInAction = async (
       return { values, error: "Incorrect password" };
     }
 
-    await createSession(user._id.toString());
+    await createSession(email);
   } catch (error) {
     console.log(error);
     return { values, error: "Something went wrong" };
