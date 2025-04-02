@@ -1,10 +1,9 @@
 import getUserInfo from "@/actions/getUserInfo";
 import Image from "next/image";
 import logo from "@/assets/logo.svg";
-import MyAccount from "@/components/MyAccount";
 import { redirect } from "next/navigation";
 
-const Dashboard = async ({ email }: { email: string }) => {
+const Dashboard = async () => {
   const user = await getUserInfo({ name: true });
   if (!user) {
     redirect("/sign-in");
@@ -25,7 +24,6 @@ const Dashboard = async ({ email }: { email: string }) => {
           <hr className="mx-4 h-10 w-0.5 rotate-12 bg-white" />
           <h1 className="text-4xl">{user?.name}</h1>
         </div>
-        <MyAccount email={email} />
       </header>
     </>
   );
