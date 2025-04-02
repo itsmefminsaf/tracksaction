@@ -4,13 +4,18 @@ import { Redis } from "@upstash/redis";
 import { cookies } from "next/headers";
 
 const getSession = async () => {
-  const session = (await cookies()).get("session_id")?.value;
+  try {
+    const session = (await cookies()).get("session_id")?.value;
 
-  if (!session) {
-    return null;
+    if (!session) {
+      return null;
+    }
+
+    return (await Redis.fromEnv().get(`session_id:${session}`)) as string;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Something went wrong");
   }
-
-  return (await Redis.fromEnv().get(`session_id:${session}`)) as string;
 };
 
 export default getSession;

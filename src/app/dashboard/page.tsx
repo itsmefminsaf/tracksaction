@@ -1,10 +1,14 @@
 import getUserInfo from "@/actions/getUserInfo";
 import Image from "next/image";
 import logo from "@/assets/logo.svg";
-import MyAccount from "./MyAccount";
+import MyAccount from "@/components/MyAccount";
+import { redirect } from "next/navigation";
 
 const Dashboard = async ({ email }: { email: string }) => {
-  const user = await getUserInfo(email, { name: true });
+  const user = await getUserInfo({ name: true });
+  if (!user) {
+    redirect("/sign-in");
+  }
   return (
     <>
       <header className="bg-foreground/50 m-3 flex items-center justify-between rounded-2xl p-5">

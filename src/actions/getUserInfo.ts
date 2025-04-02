@@ -2,9 +2,16 @@
 
 import connectToDatabase from "@/utils/connectToMongoDB";
 import { userReqFieldsType, userType } from "@/utils/types";
+import getSession from "./getSession";
 
-const getUserInfo = async (email: string, reqFields: userReqFieldsType) => {
+const getUserInfo = async (reqFields: userReqFieldsType) => {
   try {
+    const email = await getSession();
+
+    if (!email) {
+      return null;
+    }
+
     return (await connectToDatabase())
       .db("auth")
       .collection("users")
