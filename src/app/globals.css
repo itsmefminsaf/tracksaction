@@ -9,6 +9,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --animate-load: load 1s linear infinite;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -29,5 +30,19 @@ body {
   }
   .form-input-label {
     @apply ml-3 text-xl font-bold;
+  }
+}
+
+@keyframes load {
+  from {
+    stroke-dashoffset: 0;
+  }
+  80% {
+    fill: transparent;
+  }
+  to {
+    fill: var(--foreground);
+    stroke-dasharray: 50;
+    stroke-dashoffset: 50;
   }
 }
