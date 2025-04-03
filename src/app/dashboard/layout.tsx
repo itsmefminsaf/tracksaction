@@ -4,12 +4,10 @@ export const metadata: Metadata = {
   title: "Dashboard | Tracksaction",
 };
 
-const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
-  return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  );
+const DashboardLayout = ({
+  children,
+}: Readonly<{ children: React.ReactNode }>) => {
+  return <>{children}</>;
 };
 
-export default RootLayout;
+export default DashboardLayout;
