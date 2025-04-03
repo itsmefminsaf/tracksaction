@@ -1,11 +1,12 @@
 "use client";
 
-const error = () => {
+const error = ({ error }: { error: Error }) => {
   return (
-    <main className="h-screen w-screen">
-      <h1 className="text-5xl text-red-500">Something went wrong.</h1>
+    <main className="flex h-screen w-screen flex-col items-center justify-center">
+      <h1 className="text-3xl text-red-500">: ( There is an error</h1>
+      <h1>{error.message}</h1>
       <button
-        className="rounded-full px-4 py-3"
+        className="mt-3 rounded-full border-2 border-red-500 px-4 py-3 hover:bg-red-500"
         onClick={() => {
           history.go(0);
         }}
