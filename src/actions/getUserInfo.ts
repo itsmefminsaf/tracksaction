@@ -3,15 +3,14 @@
 import connectToDatabase from "@/utils/connectToMongoDB";
 import { userReqFieldsType, userType } from "@/utils/types";
 import getSession from "./getSession";
+import { redirect } from "next/navigation";
 
 const getUserInfo = async (reqFields: userReqFieldsType) => {
+  const email = await getSession();
+
+  if (!email) redirect("/sign-in");
+
   try {
-    const email = await getSession();
-
-    if (!email) {
-      return null;
-    }
-
     return (await connectToDatabase())
       .db("auth")
       .collection("users")
